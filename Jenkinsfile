@@ -24,6 +24,18 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Test stage'
+                sh '''
+                    # Check if index.html exists inside the build directory
+                    if [ -f build/index.html ]; then
+                        echo "✅ index.html exists inside the build directory."
+                    else
+                        echo "❌ index.html does NOT exist inside the build directory."
+                        exit 1
+                    fi
+
+                    echo "✅ Running unit tests..."
+                    npm test
+                '''
             }
         }
     }
