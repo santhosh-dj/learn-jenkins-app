@@ -135,20 +135,19 @@ pipeline {
         //     }
         // }
         stage('E2E') {
-    agent {
-        docker {
-            image 'mcr.microsoft.com/playwright:v1.39.0-focal'   // ✅ Updated version
+        agent {
+            docker {
+            image 'mcr.microsoft.com/playwright:v1.39.0-focal'   
             reuseNode true
+            }
         }
-    }
-    steps {
-        sh '''
-           npm install serve
-           ./node_modules/.bin/serve -s build &
-           sleep 10
-           npx playwright test
-        '''
-    }
+        steps {
+            sh '''
+                npm install serve
+                ./node_modules/.bin/serve -s build &
+                npx playwright test --reporter=html
+                '''
+        }
 }
 
     }
